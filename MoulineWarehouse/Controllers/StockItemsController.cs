@@ -67,6 +67,7 @@ namespace MoulineWarehouse.Controllers
             return View(stockItem);
         }
 
+        // GET: StockItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.StockItems == null)
@@ -84,6 +85,47 @@ namespace MoulineWarehouse.Controllers
             return View(stockItem);
         }
 
+        // POST: StockItems/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ThreadColorId,Quantity,ReservedQuantity")] StockItem stockItem)
+        {
+            if (id != stockItem.Id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(stockItem);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!StockItemExists(stockItem.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["ThreadColorId"] = new SelectList(
+                _context.ThreadColors, "Id", "Code", stockItem.ThreadColorId
+            );
+            return View(stockItem);
+        }
+
+
+
+        private bool StockItemExists(int id)
+        {
+            return _context.StockItems.Any(e => e.Id == id);
+        }
 
 
     }
