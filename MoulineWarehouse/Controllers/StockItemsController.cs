@@ -120,6 +120,44 @@ namespace MoulineWarehouse.Controllers
             return View(stockItem);
         }
 
+        // GET: StockItems/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.StockItems == null)
+            {
+                return NotFound();
+            }
+            var stockItem = await _context.StockItems
+                .Include(s => s.ThreadColor)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (stockItem == null)
+            {
+                return NotFound();
+            }
+            return View(stockItem);
+        }
+
+        // POST: StockItems/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.StockItems == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.StockItems'  is null.");
+            }
+            var stockItem = await _context.StockItems.FindAsync(id);
+            if (stockItem != null)
+            {
+                // вместо удаления можно обнулить количество или пометить скрытым
+                stockItem.Quantity = 0;
+                stockItem.ReservedQuantity = 0;
+                _context.Update(stockItem);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
 
 
         private bool StockItemExists(int id)
