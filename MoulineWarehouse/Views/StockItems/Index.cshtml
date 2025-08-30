@@ -1,0 +1,29 @@
+﻿@model IEnumerable<MoulineWarehouse.Models.StockItem>
+
+<h2>Склад</h2>
+
+<p>
+    <a class="btn btn-primary" href="/StockItems/Create">Добавить</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Код</th>
+            <th>Производитель</th>
+            <th>Наличие</th>
+            <th>В резерве</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ThreadColor?.Code</td>
+                <td>@item.ThreadColor?.Manufacturer</td>
+                <td>@item.Quantity</td>
+                <td>@item.ReservedQuantity</td>
+            </tr>
+        }
+    </tbody>
+</table>

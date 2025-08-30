@@ -1,0 +1,22 @@
+﻿@model MoulineWarehouse.Models.StockItem
+
+<h2>Добавить на склад</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label>Цвет</label>
+        <select asp-for="ThreadColorId" asp-items="ViewBag.ThreadColorId" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label>Количество (мм)</label>
+        <input asp-for="Quantity" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>В резерве (мм)</label>
+        <input asp-for="ReservedQuantity" class="form-control" />
+    </div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <button type="submit" class="btn btn-success">Сохранить</button>
+</form>
