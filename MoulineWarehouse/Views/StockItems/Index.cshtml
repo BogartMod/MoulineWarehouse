@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<MoulineWarehouse.Models.StockItem>
 
-<h2>Склад</h2>
+<h2>В запасе</h2>
 
 <p>
     <a class="btn btn-primary" href="/StockItems/Create">Добавить</a>
@@ -9,10 +9,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Код</th>
+            <th>Цвет</th>
             <th>Производитель</th>
             <th>Наличие</th>
             <th>В резерве</th>
+            <th>Действия</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,11 @@
                 <td>@item.ThreadColor?.Manufacturer</td>
                 <td>@item.Quantity</td>
                 <td>@item.ReservedQuantity</td>
+                <td>@(item.Quantity > 0 ? "Да" : "Нет")</td>
+                <td>
+                    <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
             </tr>
         }
     </tbody>
